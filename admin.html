@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - My Secret Bloom</title>
+    <style>
+        /* Login Screen Styles */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            color: #9c27b0;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-container h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #9c27b0;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #9c27b0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #7b1fa2;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Original Admin Styles */
+        .admin-content {
+            display: none; /* Sembunyikan dulu sampai login berhasil */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #9c27b0;
+            text-align: center;
+        }
+        h2 {
+            color: #7b1fa2;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e1e1e1;
+        }
+        .admin-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .back-to-home {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .back-to-home:hover {
+            background: #545b62;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sheet-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .sheet-info a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .sheet-info a:hover {
+            text-decoration: underline;
+        }
+
+        .data-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .last-updated {
+            font-size: 0.9rem;
+            color: #666;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginOverlay">
+        <div class="login-container">
+            <div class="login-logo">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <h1>Admin Login</h1>
+            <p class="login-subtitle">My Secret Bloom Dashboard</p>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Masukkan password admin" required>
+                </div>
+                <button type="submit" class="login-btn">Masuk ke Dashboard</button>
+            </form>
+            
+            <div class="error-message" id="errorMessage">
+                Password salah. Silakan coba lagi.
+            </div>
+
+            <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">
+                <p>Hubungi administrator jika lupa password</p>
+            </div>
+
+            <!-- Tombol kembali ke home dari login screen -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="index.html" class="back-to-home" style="display: inline-flex; width: auto;">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Original Admin Content -->
+    <div class="admin-content" id="adminContent">
+        <div class="button-container">
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+            <a href="index.html" class="back-to-home">
+                <i class="fas fa-home"></i> Kembali ke Home
+            </a>
+        </div>
+        
+        <div class="admin-container">
+            <h1>Admin Dashboard - My Secret Bloom</h1>
+            <div class="admin-warning">
+                <strong>Halaman ini tidak untuk akses publik.</strong>
+                <p>Hanya staf terotorisasi yang dapat mengakses halaman ini.</p>
+            </div>
+            
+            <!-- Section Data Pemesanan -->
+            <div class="data-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-shopping-cart"></i> Data Pemesanan</h2>
+                    <span class="last-updated" id="ordersLastUpdated">Terakhir diupdate: -</span>
+                </div>
+                
+                <div class="sheet-info">
+                    <span>Data dari Google Sheets: <strong>Pemesanan My Secret Bloom</strong></span>
+                    <a href="https://docs.google.com/spreadsheets/d/1rGDTTfrz0vcqiZpibVpEy5ilfgV8nt3B2DibX_VK97Y/edit?usp=sharing" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                    </a>
+                </div>
+                
+                <iframe src="https://docs.google.com/spreadsheets/d/1rGDTTfrz0vcqiZpibVpEy5ilfgV8nt3B2DibX_VK97Y/edit?usp=sharing"></iframe>
+            </div>
+
+            <!-- Section Data Feedback -->
+            <div class="data-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-comments"></i> Data Kritik & Saran</h2>
+                    <span class="last-updated" id="feedbackLastUpdated">Terakhir diupdate: -</span>
+                </div>
+                
+                <div class="sheet-info">
+                    <span>Data dari Google Forms: <strong>Feedback My Secret Bloom</strong></span>
+                    <a href="https://docs.google.com/spreadsheets/d/1Kf52I1PcGdWiRR6SyJ7xTriuQSp4Q-6ue9kY75eyiug/edit?usp=sharing" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                    </a>
+                </div>
+                
+                <!-- Ganti YOUR_FEEDBACK_SHEET_ID_HERE dengan ID spreadsheet feedback Anda -->
+                <iframe src="https://docs.google.com/spreadsheets/d/1Kf52I1PcGdWiRR6SyJ7xTriuQSp4Q-6ue9kY75eyiug/edit?usp=sharing"></iframe>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
+                <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-info-circle"></i> Informasi Penting</h3>
+                <p style="margin-bottom: 10px; color: #555;">
+                    <strong>Total Pemesanan:</strong> <span id="totalOrders">-</span> | 
+                    <strong>Total Feedback:</strong> <span id="totalFeedback">-</span>
+                </p>
+                <p style="color: #666; font-size: 0.9rem;">
+                    Untuk akses penuh ke spreadsheet admin, login ke Google Sheets menggunakan akun yang terotorisasi.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        // Password configuration
+        const ADMIN_PASSWORD = "secret123";
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (password === ADMIN_PASSWORD) {
+                // Login successful
+                showAdminDashboard();
+                updateDashboardInfo();
+            } else {
+                // Login failed
+                errorMessage.style.display = 'block';
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+                
+                // Hide error message after 3 seconds
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Show admin dashboard
+        function showAdminDashboard() {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            
+            // Update timestamp
+            const now = new Date();
+            document.getElementById('ordersLastUpdated').textContent = 'Terakhir diupdate: ' + now.toLocaleString('id-ID');
+            document.getElementById('feedbackLastUpdated').textContent = 'Terakhir diupdate: ' + now.toLocaleString('id-ID');
+        }
+
+        // Update dashboard information
+        function updateDashboardInfo() {
+            // Ini adalah placeholder - dalam implementasi nyata, Anda akan mengambil data dari API
+            document.getElementById('totalOrders').textContent = 'Memuat...';
+            document.getElementById('totalFeedback').textContent = 'Memuat...';
+            
+            // Simulasi loading data
+            setTimeout(() => {
+                document.getElementById('totalOrders').textContent = '25 pesanan';
+                document.getElementById('totalFeedback').textContent = '12 feedback';
+            }, 1500);
+        }
+
+        // Logout function - Kembali ke home
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout dan kembali ke halaman home?')) {
+                window.location.href = "index.html";
+            }
+        }
+
+        // Initialize - SELALU tampilkan login screen pertama kali
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pastikan login screen selalu ditampilkan
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('password').focus();
+        });
+
+        // Keyboard shortcut - Enter to submit login form
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Auto-refresh iframes setiap 5 menit (opsional)
+        function refreshIframes() {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                const src = iframe.src;
+                iframe.src = '';
+                setTimeout(() => {
+                    iframe.src = src;
+                }, 100);
+            });
+            
+            // Update timestamp
+            const now = new Date();
+            document.getElementById('ordersLastUpdated').textContent = 'Terakhir diupdate: ' + now.toLocaleString('id-ID');
+            document.getElementById('feedbackLastUpdated').textContent = 'Terakhir diupdate: ' + now.toLocaleString('id-ID');
+        }
+
+        // Auto-refresh setiap 5 menit (300000 ms)
+        setInterval(refreshIframes, 300000);
+    </script>
+</body>
+</html>

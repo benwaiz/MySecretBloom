@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog - My Secret Bloom</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-seedling logo-icon"></i>
+                <h1>My Secret Bloom</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">Tentang Kami</a></li>
+                <li><a href="catalog.html" class="active">Katalog</a></li>
+                <li><a href="order.html">Pesan Sekarang</a></li>
+                <li><a href="feedback.html">Kritik&Saran</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>Katalog Bunga Rahasia Kami</h1>
+            <p>Temukan rangkaian bunga sempurna untuk menyampaikan pesan rahasiamu</p>
+        </div>
+    </section>
+
+    <section class="catalog">
+        <div class="catalog-filters">
+            <div class="categories">
+                <button class="category-btn active" data-category="all">Semua</button>
+                <button class="category-btn" data-category="love">Cinta</button>
+                <button class="category-btn" data-category="friendship">Persahabatan</button>
+                <button class="category-btn" data-category="thanks">Terima Kasih</button>
+                <button class="category-btn" data-category="apology">Permintaan Maaf</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari rangkaian bunga...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div class="products" id="productsContainer">
+            <!-- Products will be loaded by JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo">
+                    <i class="fas fa-seedling logo-icon"></i>
+                    <h2>My Secret Bloom</h2>
+                </div>
+                <p>Bahasa rahasia antara dua hati. Di setiap kelopak yang kami kirim, ada cerita yang hanya diketahui oleh satu orang: kamu.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">Tentang Kami</a></li>
+                    <li><a href="catalog.html">Katalog</a></li>
+                    <li><a href="order.html">Pesan Sekarang</a></li>
+                    <li><a href="feedback.html">Kritik&Saran</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p><i class="fas fa-envelope"></i> hello@mysecretbloom.com</p>
+                <p><i class="fas fa-phone"></i> +62 812-3456-7890</p>
+                <p><i class="fas fa-map-marker-alt"></i> Bandung, Indonesia</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 My Secret Bloom. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Detail Produk -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="product-detail">
+                <div class="product-detail-image">
+                    <img id="modalImage" src="" alt="Product Image">
+                </div>
+                <div class="product-detail-info">
+                    <span id="modalCategory" class="product-category"></span>
+                    <h2 id="modalTitle"></h2>
+                    <p id="modalDescription"></p>
+                    <div id="modalPrice" class="product-detail-price"></div>
+                    <a href="order.html" class="btn order-btn">Pesan Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/catalog.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
